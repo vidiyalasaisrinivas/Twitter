@@ -1,0 +1,136 @@
+val query1 = sqlContext.sql("select substring(user.created_at,5,3) as month,count(*) as count from table where text like '%exer%' group by month order by count desc");
+scala> query1.show(10,false)
++-----+-----+                                                                   
+|month|count|
++-----+-----+
+|Nov  |22   |
+|Oct  |17   |
+|Mar  |15   |
+|Jul  |13   |
+|Feb  |12   |
+|Jan  |12   |
+|May  |11   |
+|Jun  |10   |
+|Apr  |8    |
+|Sep  |8    |
++-----+-----+
+only showing top 10 rows
+
+scala> query1.coalesce(1).write.format("com.databricks.spark.csv").option("header","true").save("/home/vidiyala/Downloads/project/query1");
+
+
+       val query2 = sqlContext.sql("select count(*) as count,user.lang from table group by user.lang order by count desc");
+
+     
+       scala> query2.show(20,false)
++-----+-----+                                                                   
+|count|lang |
++-----+-----+
+|33316|en   |
+|673  |ja   |
+|614  |en-gb|
+|393  |es   |
+|370  |fr   |
+|142  |de   |
+|129  |ru   |
+|97   |nl   |
+|79   |id   |
+|74   |it   |
+|68   |en-GB|
+|67   |pt   |
+|59   |tr   |
+|58   |ar   |
+|53   |ko   |
+|49   |pl   |
+|41   |th   |
+|34   |sv   |
+|29   |fi   |
+|19   |ca   |
++-----+-----+
+only showing top 20 rows
+
+
+
+
+scala> val query31 = sqlContext.sql("select max(user.friends_count) as count,user.name from table  where user.verified =  true group by user.name order by count desc"); 
+query31: org.apache.spark.sql.DataFrame = [count: bigint, name: string]
+
+scala> query31.show(20,false)
++------+-----------------------------------------------+                        
+|count |name                                           |
++------+-----------------------------------------------+
+|106972|Natalie Bennett                                |
+|47669 |Jason Pollock                                  |
+|43736 |Asher Wolf                                     |
+|23725 |RTÉ                                            |
+|20745 |Masato Jones 🇬🇧🇯🇵                          |
+|19426 |Dean Anthony Gratton                           |
+|17910 |Moms Clean Air Force                           |
+|16737 |FOX 11 Los Angeles                             |
+|14131 |LAFD Talk                                      |
+|13315 |Sairee Chahal                                  |
+|12306 |NowThis                                        |
+|12244 |Paul Bernal                                    |
+|11752 |The Conversation                               |
+|11320 |Good Day LA                                    |
+|10465 |Brooke Binkowski                               |
+|10350 |Ikwekwezi FM                                   |
+|9451  |IG sindivanzyl 🇿🇼🇿🇦                        |
+|9086  |Suomen UNICEF - 🇫🇮 20.11. liputetaan lapsille|
+|9048  |Susanna Reid                                   |
+|9045  |Maysoon                                        |
++------+-----------------------------------------------+
+only showing top 20 rows
+
+query31.coalesce(1).write.format("com.databricks.spark.csv").option("header","true").save("/home/vidiyala/Downloads/project/query31");
+
+
+
+val query4 = sqlContext.sql("select count(*) as count,user.location from table where user.location is not null group by user.location order by count desc");
+
+query4: org.apache.spark.sql.DataFrame = [count: bigint, location: string]
+
+scala> query4.show(20,false)
++-----+----------------+                                                        
+|count|location        |
++-----+----------------+
+|447  |United States   |
+|297  |California, USA |
+|263  |India           |
+|239  |Los Angeles, CA |
+|223  |London, England |
+|193  |Lagos, Nigeria  |
+|171  |Australia       |
+|160  |Houston, TX     |
+|156  |Nigeria         |
+|151  |Texas, USA      |
+|140  |Chicago, IL     |
+|130  |New Delhi, India|
+|129  |London          |
+|119  |Global          |
+|119  |USA             |
+|106  |United Kingdom  |
+|105  |Canada          |
+|96   |Mumbai, India   |
+|95   |Nairobi, Kenya  |
+|94   |Florida, USA    |
++-----+----------------+
+only showing top 20 rows
+
+
+query4.coalesce(1).write.format("com.databricks.spark.csv").option("header","true").save("/home/vidiyala/Downloads/project/query4");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
