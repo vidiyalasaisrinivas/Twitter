@@ -86,39 +86,46 @@ query31.coalesce(1).write.format("com.databricks.spark.csv").option("header","tr
 
 
 
-val query4 = sqlContext.sql("select count(*) as count,user.location from table where user.location is not null group by user.location order by count desc");
+scala> val query4 = sqlContext.sql("select count(*) as count,place.country from table where place.country is not null  group by place.country order by count desc");
+query4: org.apache.spark.sql.DataFrame = [count: bigint, country: string]
 
-query4: org.apache.spark.sql.DataFrame = [count: bigint, location: string]
+scala> query4.show(26,false)
++-----+---------------------------+                                             
+|count|country                    |
++-----+---------------------------+
+|189  |United States              |
+|98   |India                      |
+|53   |United Kingdom             |
+|23   |Nigeria                    |
+|18   |Australia                  |
+|15   |South Africa               |
+|13   |Canada                     |
+|12   |United Arab Emirates       |
+|6    |Republic of the Philippines|
+|5    |Kenya                      |
+|5    |Ireland                    |
+|4    |Uganda                     |
+|4    |Kingdom of Saudi Arabia    |
+|4    |Indonesia                  |
+|3    |Francia                    |
+|3    |México                     |
+|3    |                           |
+|2    |Mexico                     |
+|2    |Thailand                   |
+|2    |Pakistan                   |
+|2    |Nederland                  |
+|2    |Qatar                      |
+|2    |日本                         |
+|2    |Sweden                     |
+|2    |Iceland                    |
+|2    |Denmark                    |
++-----+---------------------------+
+only showing top 26 rows
 
-scala> query4.show(20,false)
-+-----+----------------+                                                        
-|count|location        |
-+-----+----------------+
-|447  |United States   |
-|297  |California, USA |
-|263  |India           |
-|239  |Los Angeles, CA |
-|223  |London, England |
-|193  |Lagos, Nigeria  |
-|171  |Australia       |
-|160  |Houston, TX     |
-|156  |Nigeria         |
-|151  |Texas, USA      |
-|140  |Chicago, IL     |
-|130  |New Delhi, India|
-|129  |London          |
-|119  |Global          |
-|119  |USA             |
-|106  |United Kingdom  |
-|105  |Canada          |
-|96   |Mumbai, India   |
-|95   |Nairobi, Kenya  |
-|94   |Florida, USA    |
-+-----+----------------+
-only showing top 20 rows
 
+scala> query4.coalesce(1).write.format("com.databricks.spark.csv").option("header","true").save("/home/vidiyala/Downloads/project/query4");
+                                                                                
 
-query4.coalesce(1).write.format("com.databricks.spark.csv").option("header","true").save("/home/vidiyala/Downloads/project/query4");
 
 
 
